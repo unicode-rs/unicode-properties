@@ -398,6 +398,10 @@ pub mod emoji {""")
         }
     }
     #[inline]
+    pub(crate) fn is_emoji_status_for_emoji_char_or_emoji_component(s: EmojiStatus) -> bool {
+        !matches!(s, EmojiStatus::NonEmoji)
+    }
+    #[inline]
     pub(crate) fn is_emoji_status_for_emoji_char(s: EmojiStatus) -> bool {
         !matches!(s, EmojiStatus::NonEmoji | EmojiStatus::NonEmojiButEmojiComponent)
     }
@@ -484,32 +488,6 @@ def emit_util_mod(f):
 #[allow(dead_code)]
 pub mod util {
     use core::result::Result::{Ok, Err};
-
-    #[inline]
-    pub fn bsearch_table(c: char, r: &'static [char]) -> bool {
-        r.binary_search(&c).is_ok()
-    }
-
-    #[inline]
-    pub fn bsearch_value_table<T: Copy>(c: char, r: &'static [(char, T)]) -> Option<T> {
-        match r.binary_search_by_key(&c, |&(k, _)| k) {
-            Ok(idx) => {
-                let (_, v) = r[idx];
-                Some(v)
-            }
-            Err(_) => None
-        }
-    }
-
-    #[inline]
-    pub fn bsearch_range_table(c: char, r: &'static [(char,char)]) -> bool {
-        use core::cmp::Ordering::{Equal, Less, Greater};
-        r.binary_search_by(|&(lo,hi)| {
-            if lo <= c && c <= hi { Equal }
-            else if hi < c { Less }
-            else { Greater }
-        }).is_ok()
-    }
 
     pub fn bsearch_range_value_table<T: Copy>(c: char, r: &'static [(char, char, T)]) -> Option<T> {
         use core::cmp::Ordering::{Equal, Less, Greater};

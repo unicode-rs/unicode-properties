@@ -2,7 +2,7 @@
 mod tables;
 
 #[cfg(feature = "emoji")]
-mod emoji {
+pub mod emoji {
     pub use crate::tables::emoji::EmojiStatus;
 
     pub trait UnicodeEmoji: Sized {
@@ -15,6 +15,12 @@ mod emoji {
         fn is_emoji_component(self) -> bool {
             crate::tables::emoji::is_emoji_status_for_emoji_component(self.emoji_status())
         }
+
+        fn is_emoji_char_or_emoji_component(self) -> bool {
+            crate::tables::emoji::is_emoji_status_for_emoji_char_or_emoji_component(
+                self.emoji_status(),
+            )
+        }
     }
 
     impl UnicodeEmoji for char {
@@ -22,10 +28,35 @@ mod emoji {
             crate::tables::emoji::emoji_status(self)
         }
     }
+
+    #[inline]
+    pub fn is_zwj(c: char) -> bool {
+        c == '\u{200D}'
+    }
+
+    #[inline]
+    pub fn is_emoji_presentation_selector(c: char) -> bool {
+        c == '\u{FE0F}'
+    }
+
+    #[inline]
+    pub fn is_text_presentation_selector(c: char) -> bool {
+        c == '\u{FE0E}'
+    }
+
+    #[inline]
+    pub fn is_regional_indicator(c: char) -> bool {
+        matches!(c, '\u{1F1E6}'..='\u{1F1FF}')
+    }
+
+    #[inline]
+    pub fn is_tag_character(c: char) -> bool {
+        matches!(c, '\u{E0020}'..='\u{E007F}')
+    }
 }
 
 #[cfg(feature = "general-category")]
-mod general_category {
+pub mod general_category {
     pub use crate::tables::general_category::{GeneralCategory, GeneralCategoryGroup};
 
     pub trait UnicodeGeneralCategory: Sized {
