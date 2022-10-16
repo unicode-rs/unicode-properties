@@ -190,70 +190,72 @@ pub mod general_category {""")
     f.write("""
 
     #[derive(Copy, Clone, Hash, Eq, PartialEq, Ord, PartialOrd, Debug)]
+    /// The most general classification of a character.
     pub enum GeneralCategory {
-        /// an uppercase letter
+        /// `Lu`, an uppercase letter
         LetterUppercase,
-        /// a lowercase letter
+        /// `Ll`, a lowercase letter
         LetterLowercase,
-        /// a digraphic character, with first part uppercase
+        /// `Lt`, a digraphic character, with first part uppercase
         LetterTitlecase,
-        /// a modifier letter
+        /// `Lm`, a modifier letter
         LetterModifier,
-        /// other letters, including syllables and ideographs
+        /// `Lo`, other letters, including syllables and ideographs
         LetterOther,
-        /// a nonspacing combining mark (zero advance width)
+        /// `Mn`, a nonspacing combining mark (zero advance width)
         MarkNonspacing,
-        /// a spacing combining mark (positive advance width)
+        /// `Mc`, a spacing combining mark (positive advance width)
         MarkSpacing,
-        /// an enclosing combining mark
+        /// `Me`, an enclosing combining mark
         MarkEnclosing,
-        /// a decimal digit
+        /// `Nd`, a decimal digit
         NumberDecimal,
-        /// a letterlike numeric character
+        /// `Nl`, a letterlike numeric character
         NumberLetter,
-        /// a numeric character of other type
+        /// `No`, a numeric character of other type
         NumberOther,
-        /// a connecting punctuation mark, like a tie
+        /// `Pc`, a connecting punctuation mark, like a tie
         PunctuationConnector,
-        /// a dash or hyphen punctuation mark
+        /// `Pd`, a dash or hyphen punctuation mark
         PunctuationDash,
-        /// an opening punctuation mark (of a pair)
+        /// `Ps`, an opening punctuation mark (of a pair)
         PunctuationOpen,
-        /// a closing punctuation mark (of a pair)
+        /// `Pe`, a closing punctuation mark (of a pair)
         PunctuationClose,
-        /// an initial quotation mark
+        /// `Pi`, an initial quotation mark
         PunctuationInitial,
-        /// a final quotation mark
+        /// `Pf`, a final quotation mark
         PunctuationFinal,
-        /// a punctuation mark of other type
+        /// `Po`, a punctuation mark of other type
         PunctuationOther,
-        /// a symbol of mathematical use
+        /// `Sm`, a symbol of mathematical use
         SymbolMath,
-        /// a currency sign
+        /// `Sc`, a currency sign
         SymbolCurrency,
-        /// a non-letterlike modifier symbol
+        /// `Sk`, a non-letterlike modifier symbol
         SymbolModifier,
-        /// a symbol of other type
+        /// `So`, a symbol of other type
         SymbolOther,
-        /// a space character (of various non-zero widths)
+        /// `Zs`, a space character (of various non-zero widths)
         SeparatorSpace,
-        /// U+2028 LINE SEPARATOR only
+        /// `Zl`, U+2028 LINE SEPARATOR only
         SeparatorLine,
-        /// U+2029 PARAGRAPH SEPARATOR only
+        /// `Zp`, U+2029 PARAGRAPH SEPARATOR only
         SeparatorParagraph,
-        /// a C0 or C1 control code
+        /// `Cc`, a C0 or C1 control code
         OtherControl,
-        /// a format control character
+        /// `Cf`, a format control character
         OtherFormat,
-        /// a surrogate code point
+        /// `Cs`, a surrogate code point
         OtherSurrogate,
-        /// a private-use character
+        /// `Co`, a private-use character
         OtherPrivateUse,
-        /// a reserved unassigned code point or a noncharacter
+        /// `Cn`, a reserved unassigned code point or a noncharacter
         OtherUnassigned,
     }
 
     #[derive(Copy, Clone, Hash, Eq, PartialEq, Ord, PartialOrd, Debug)]
+    /// Groupings of the most general classification of a character.
     pub enum GeneralCategoryGroup {
         /// Lu | Ll | Lt | Lm | Lo
         Letter,
@@ -379,15 +381,25 @@ pub mod emoji {""")
 
     #[derive(Copy, Clone, Hash, Eq, PartialEq, Ord, PartialOrd, Debug)]
     #[non_exhaustive]
+    /// The emoji character properties of a character.
     pub enum EmojiStatus {
+        /// `Emoji=NO`, `Emoji_Component=NO`
         NonEmoji,
+        /// `Emoji=NO`, `Emoji_Component=YES`
         NonEmojiButEmojiComponent,
+        /// `Emoji=YES`, `Emoji_Component=NO`;`Emoji_Presentation=YES`
         EmojiPresentation,
+        /// `Emoji=YES`, `Emoji_Component=NO`;`Emoji_Modifier_Base=YES`
         EmojiModifierBase,
+        /// `Emoji=YES`, `Emoji_Component=NO`;`Emoji_Presentation=YES`, `Emoji_Modifier_Base=YES`
         EmojiPresentationAndModifierBase,
+        /// `Emoji=YES`, `Emoji_Component=NO`
         EmojiOther,
+        /// `Emoji=YES`, `Emoji_Component=YES`;`Emoji_Presentation=YES`
         EmojiPresentationAndEmojiComponent,
+        /// `Emoji=YES`, `Emoji_Component=YES`;`Emoji_Presentation=YES`, `Emoji_Modifier=YES`
         EmojiPresentationAndModifierAndEmojiComponent,
+        /// `Emoji=YES`, `Emoji_Component=YES`
         EmojiOtherAndEmojiComponent,
     }
     #[inline]
