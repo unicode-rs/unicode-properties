@@ -3,4 +3,8 @@ name = "unicode-properties"
 version = "0.1.0"
 edition = "2021"
 
+[features]
+emoji = []
+default = ["emoji"]
+
 [dependencies]
