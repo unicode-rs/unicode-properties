@@ -80,6 +80,60 @@ def load_emoji_properties(f):
 
     return kinds
 
+
+def load_general_category_properties(f):
+    fetch_unidata(f)
+    general_category_list = []
+    re1 = re.compile(r"^([0-9A-F]+);([^;]+);([A-Za-z]+);.*$")
+    re2 = re.compile(r"^<(.*), First>$")
+    re3 = re.compile(r"^<(.*), Last>$")
+    re4 = re.compile(r"^<(.*)>$")
+
+    special_group_lo = 0
+    special_group_text = ''
+    special_group_gc = ''
+    for line in fileinput.input(os.path.basename(f), openhook=fileinput.hook_encoded("utf-8")):
+        d_ch = 0
+        d_name = ''
+        d_gc = ''
+        d_lo = 0
+        d_hi = 0
+        m = re1.match(line)
+        if not m:
+            continue
+
+        d_ch = m.group(1)
+        d_name = m.group(2).strip()
+        d_gc = m.group(3).strip()
+
+        if not d_name.startswith('<'):
+            d_lo = int(d_ch, 16)
+            d_hi = d_lo
+            general_category_list.append((d_lo, d_hi, d_gc))
+            continue
+        m2 = re2.match(d_name)
+        if m2:
+            special_group_lo = int(d_ch, 16)
+            special_group_text = m2.group(1)
+            special_group_gc = d_gc
+            continue
+        m3 = re3.match(d_name)
+        if m3:
+            assert(special_group_text == m3.group(1))
+            assert(special_group_gc == d_gc)
+            d_lo = special_group_lo
+            d_hi = int(d_ch, 16)
+            general_category_list.append((d_lo, d_hi, d_gc))
+            continue
+        m4 = re4.match(d_name)
+        if m4:
+            d_lo = int(d_ch, 16)
+            d_hi = d_lo
+            general_category_list.append((d_lo, d_hi, d_gc))
+            continue
+        raise ValueError("unreachable")
+    return general_category_list
+
 def format_table_content(f, content, indent):
     line = " "*indent
     first = True
@@ -130,13 +184,200 @@ def emit_table(f, name, t_data, t_type = "&'static [(char, char)]", is_pub=True,
     format_table_content(f, data, 8)
     f.write("\n    ];\n\n")
 
+def emit_general_category_module(f):
+    f.write("""#[cfg(feature = \"general-category\")]
+pub mod general_category {""")
+    f.write("""
+
+    #[derive(Copy, Clone, Hash, Eq, PartialEq, Ord, PartialOrd, Debug)]
+    pub enum GeneralCategory {
+        /// an uppercase letter
+        LetterUppercase,
+        /// a lowercase letter
+        LetterLowercase,
+        /// a digraphic character, with first part uppercase
+        LetterTitlecase,
+        /// a modifier letter
+        LetterModifier,
+        /// other letters, including syllables and ideographs
+        LetterOther,
+        /// a nonspacing combining mark (zero advance width)
+        MarkNonspacing,
+        /// a spacing combining mark (positive advance width)
+        MarkSpacing,
+        /// an enclosing combining mark
+        MarkEnclosing,
+        /// a decimal digit
+        NumberDecimal,
+        /// a letterlike numeric character
+        NumberLetter,
+        /// a numeric character of other type
+        NumberOther,
+        /// a connecting punctuation mark, like a tie
+        PunctuationConnector,
+        /// a dash or hyphen punctuation mark
+        PunctuationDash,
+        /// an opening punctuation mark (of a pair)
+        PunctuationOpen,
+        /// a closing punctuation mark (of a pair)
+        PunctuationClose,
+        /// an initial quotation mark
+        PunctuationInitial,
+        /// a final quotation mark
+        PunctuationFinal,
+        /// a punctuation mark of other type
+        PunctuationOther,
+        /// a symbol of mathematical use
+        SymbolMath,
+        /// a currency sign
+        SymbolCurrency,
+        /// a non-letterlike modifier symbol
+        SymbolModifier,
+        /// a symbol of other type
+        SymbolOther,
+        /// a space character (of various non-zero widths)
+        SeparatorSpace,
+        /// U+2028 LINE SEPARATOR only
+        SeparatorLine,
+        /// U+2029 PARAGRAPH SEPARATOR only
+        SeparatorParagraph,
+        /// a C0 or C1 control code
+        OtherControl,
+        /// a format control character
+        OtherFormat,
+        /// a surrogate code point
+        OtherSurrogate,
+        /// a private-use character
+        OtherPrivateUse,
+        /// a reserved unassigned code point or a noncharacter
+        OtherUnassigned,
+    }
+
+    #[derive(Copy, Clone, Hash, Eq, PartialEq, Ord, PartialOrd, Debug)]
+    pub enum GeneralCategoryGroup {
+        /// Lu | Ll | Lt | Lm | Lo
+        Letter,
+        /// Mn | Mc | Me
+        Mark,
+        /// Nd | Nl | No
+        Number,
+        /// Pc | Pd | Ps | Pe | Pi | Pf | Po
+        Punctuation,
+        /// Sm | Sc | Sk | So
+        Symbol,        
+        /// Zs | Zl | Zp
+        Separator,
+        /// Cc | Cf | Cs | Co | Cn
+        Other,
+    }
+
+    #[inline]
+    pub(crate) fn general_category_of_char(c: char) -> GeneralCategory {
+        match c as usize {
+            _ => super::util::bsearch_range_value_table(c, GENERAL_CATEGORY).unwrap_or(GeneralCategory::OtherUnassigned)
+        }
+    }
+
+    #[inline]
+    pub(crate) fn general_category_is_letter_cased(gc: GeneralCategory) -> bool {
+        matches!(gc, GeneralCategory::LetterUppercase | GeneralCategory::LetterLowercase | GeneralCategory::LetterTitlecase)
+    }
+
+    #[inline]
+    pub(crate) fn general_category_group(gc: GeneralCategory) -> GeneralCategoryGroup {
+        match gc {
+            GeneralCategory::LetterUppercase |
+            GeneralCategory::LetterLowercase |
+            GeneralCategory::LetterTitlecase |
+            GeneralCategory::LetterModifier |
+            GeneralCategory::LetterOther => GeneralCategoryGroup::Letter,
+            GeneralCategory::MarkNonspacing |
+            GeneralCategory::MarkSpacing |
+            GeneralCategory::MarkEnclosing => GeneralCategoryGroup::Mark,
+            GeneralCategory::NumberDecimal |
+            GeneralCategory::NumberLetter |
+            GeneralCategory::NumberOther => GeneralCategoryGroup::Number,
+            GeneralCategory::PunctuationConnector |
+            GeneralCategory::PunctuationDash |
+            GeneralCategory::PunctuationOpen |
+            GeneralCategory::PunctuationClose |
+            GeneralCategory::PunctuationInitial |
+            GeneralCategory::PunctuationFinal |
+            GeneralCategory::PunctuationOther => GeneralCategoryGroup::Punctuation,
+            GeneralCategory::SymbolMath |
+            GeneralCategory::SymbolCurrency |
+            GeneralCategory::SymbolModifier |
+            GeneralCategory::SymbolOther => GeneralCategoryGroup::Symbol,
+            GeneralCategory::SeparatorSpace |
+            GeneralCategory::SeparatorLine |
+            GeneralCategory::SeparatorParagraph => GeneralCategoryGroup::Separator,
+            GeneralCategory::OtherControl |
+            GeneralCategory::OtherFormat |
+            GeneralCategory::OtherSurrogate |
+            GeneralCategory::OtherPrivateUse |
+            GeneralCategory::OtherUnassigned => GeneralCategoryGroup::Other,
+        }
+    }
+""")
+    gc_variants = {
+        "Lu": "GeneralCategory::LetterUppercase",
+        "Ll": "GeneralCategory::LetterLowercase" ,
+        "Lt": "GeneralCategory::LetterTitlecase" ,
+        "Lm": "GeneralCategory::LetterModifier" ,
+        "Lo": "GeneralCategory::LetterOther",
+        "Mn": "GeneralCategory::MarkNonspacing",
+        "Mc": "GeneralCategory::MarkSpacing" ,
+        "Me": "GeneralCategory::MarkEnclosing",
+        "Nd": "GeneralCategory::NumberDecimal",
+        "Nl": "GeneralCategory::NumberLetter" ,
+        "No": "GeneralCategory::NumberOther",
+        "Pc": "GeneralCategory::PunctuationConnector",
+        "Pd": "GeneralCategory::PunctuationDash" ,
+        "Ps": "GeneralCategory::PunctuationOpen" ,
+        "Pe": "GeneralCategory::PunctuationClose" ,
+        "Pi": "GeneralCategory::PunctuationInitial" ,
+        "Pf": "GeneralCategory::PunctuationFinal" ,
+        "Po": "GeneralCategory::PunctuationOther",
+        "Sm": "GeneralCategory::SymbolMath",
+        "Sc": "GeneralCategory::SymbolCurrency" ,
+        "Sk": "GeneralCategory::SymbolModifier" ,
+        "So": "GeneralCategory::SymbolOther",
+        "Zs": "GeneralCategory::SeparatorSpace",
+        "Zl": "GeneralCategory::SeparatorLine" ,
+        "Zp": "GeneralCategory::SeparatorParagraph",
+        "Cc": "GeneralCategory::OtherControl",
+        "Cf": "GeneralCategory::OtherFormat" ,
+        "Cs": "GeneralCategory::OtherSurrogate" ,
+        "Co": "GeneralCategory::OtherPrivateUse" ,
+        "Cn": "GeneralCategory::OtherUnassigned",
+    }
+
+    f.write("    // General category table:\n")
+    general_category_char_table = load_general_category_properties("UnicodeData.txt")
+    general_category_group_table = []
+    for input_idx in range(len(general_category_char_table)):
+        if general_category_char_table[input_idx][2] == "Cs":
+            continue
+        existing_group_count = len(general_category_group_table)
+        if existing_group_count == 0:
+            general_category_group_table.append(general_category_char_table[input_idx])
+        elif (general_category_group_table[existing_group_count - 1][1] + 1 == general_category_char_table[input_idx][0] and
+            general_category_group_table[existing_group_count - 1][2] == general_category_char_table[input_idx][2]):
+            general_category_group_table[existing_group_count - 1] = (general_category_group_table[existing_group_count - 1][0],
+                general_category_char_table[input_idx][1], general_category_group_table[existing_group_count - 1][2])
+        else:
+            general_category_group_table.append(general_category_char_table[input_idx])
+    emit_table(f, "GENERAL_CATEGORY", general_category_group_table, "&'static [(char, char, GeneralCategory)]", is_pub=False,
+            pfun=lambda x: "(%s,%s,%s)" % (escape_char(x[0]), escape_char(x[1]), gc_variants[x[2]]))
+    f.write("}\n\n")
+
+
 def emit_emoji_module(f):
     f.write("""#[cfg(feature = \"emoji\")]
 pub mod emoji {""")
     f.write("""
 
     #[derive(Copy, Clone, Hash, Eq, PartialEq, Ord, PartialOrd, Debug)]
-    #[allow(non_camel_case_types)]
     #[non_exhaustive]
     pub enum EmojiStatus {
         NonEmoji,
@@ -305,5 +546,7 @@ pub const UNICODE_VERSION: (u64, u64, u64) = (%s, %s, %s);
 """ % UNICODE_VERSION)
 
         emit_util_mod(rf)
+        ### general category module
+        emit_general_category_module(rf)
         ### emoji module
         emit_emoji_module(rf)

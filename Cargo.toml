@@ -4,7 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [features]
+general-category = []
 emoji = []
-default = ["emoji"]
+default = ["general-category", "emoji"]
 
 [dependencies]

@@ -24,6 +24,31 @@ mod emoji {
     }
 }
 
+#[cfg(feature = "general-category")]
+mod general_category {
+    pub use crate::tables::general_category::{GeneralCategory, GeneralCategoryGroup};
+
+    pub trait UnicodeGeneralCategory: Sized {
+        fn general_category(self) -> GeneralCategory;
+
+        fn general_category_group(self) -> GeneralCategoryGroup {
+            crate::tables::general_category::general_category_group(self.general_category())
+        }
+
+        fn is_letter_cased(self) -> bool {
+            crate::tables::general_category::general_category_is_letter_cased(
+                self.general_category(),
+            )
+        }
+    }
+
+    impl UnicodeGeneralCategory for char {
+        fn general_category(self) -> GeneralCategory {
+            crate::tables::general_category::general_category_of_char(self)
+        }
+    }
+}
+
 pub use tables::UNICODE_VERSION;
 
 #[cfg(feature = "emoji")]
@@ -31,3 +56,12 @@ pub use emoji::UnicodeEmoji;
 
 #[cfg(feature = "emoji")]
 pub use emoji::EmojiStatus;
+
+#[cfg(feature = "general-category")]
+pub use general_category::GeneralCategory;
+
+#[cfg(feature = "general-category")]
+pub use general_category::GeneralCategoryGroup;
+
+#[cfg(feature = "general-category")]
+pub use general_category::UnicodeGeneralCategory;
