@@ -193,65 +193,65 @@ pub mod general_category {""")
     /// The most general classification of a character.
     pub enum GeneralCategory {
         /// `Lu`, an uppercase letter
-        LetterUppercase,
+        UppercaseLetter,
         /// `Ll`, a lowercase letter
-        LetterLowercase,
+        LowercaseLetter,
         /// `Lt`, a digraphic character, with first part uppercase
-        LetterTitlecase,
+        TitlecaseLetter,
         /// `Lm`, a modifier letter
-        LetterModifier,
+        ModifierLetter,
         /// `Lo`, other letters, including syllables and ideographs
-        LetterOther,
+        OtherLetter,
         /// `Mn`, a nonspacing combining mark (zero advance width)
-        MarkNonspacing,
+        NonspacingMark,
         /// `Mc`, a spacing combining mark (positive advance width)
-        MarkSpacing,
+        SpacingMark,
         /// `Me`, an enclosing combining mark
-        MarkEnclosing,
+        EnclosingMark,
         /// `Nd`, a decimal digit
-        NumberDecimal,
+        DecimalNumber,
         /// `Nl`, a letterlike numeric character
-        NumberLetter,
+        LetterNumber,
         /// `No`, a numeric character of other type
-        NumberOther,
+        OtherNumber,
         /// `Pc`, a connecting punctuation mark, like a tie
-        PunctuationConnector,
+        ConnectorPunctuation,
         /// `Pd`, a dash or hyphen punctuation mark
-        PunctuationDash,
+        DashPunctuation,
         /// `Ps`, an opening punctuation mark (of a pair)
-        PunctuationOpen,
+        OpenPunctuation,
         /// `Pe`, a closing punctuation mark (of a pair)
-        PunctuationClose,
+        ClosePunctuation,
         /// `Pi`, an initial quotation mark
-        PunctuationInitial,
+        InitialPunctuation,
         /// `Pf`, a final quotation mark
-        PunctuationFinal,
+        FinalPunctuation,
         /// `Po`, a punctuation mark of other type
-        PunctuationOther,
+        OtherPunctuation,
         /// `Sm`, a symbol of mathematical use
-        SymbolMath,
+        MathSymbol,
         /// `Sc`, a currency sign
-        SymbolCurrency,
+        CurrencySymbol,
         /// `Sk`, a non-letterlike modifier symbol
-        SymbolModifier,
+        ModifierSymbol,
         /// `So`, a symbol of other type
-        SymbolOther,
+        OtherSymbol,
         /// `Zs`, a space character (of various non-zero widths)
-        SeparatorSpace,
+        SpaceSeparator,
         /// `Zl`, U+2028 LINE SEPARATOR only
-        SeparatorLine,
+        LineSeparator,
         /// `Zp`, U+2029 PARAGRAPH SEPARATOR only
-        SeparatorParagraph,
+        ParagraphSeparator,
         /// `Cc`, a C0 or C1 control code
-        OtherControl,
+        Control,
         /// `Cf`, a format control character
-        OtherFormat,
+        Format,
         /// `Cs`, a surrogate code point
-        OtherSurrogate,
+        Surrogate,
         /// `Co`, a private-use character
-        OtherPrivateUse,
+        PrivateUse,
         /// `Cn`, a reserved unassigned code point or a noncharacter
-        OtherUnassigned,
+        Unassigned,
     }
 
     #[derive(Copy, Clone, Hash, Eq, PartialEq, Ord, PartialOrd, Debug)]
@@ -276,82 +276,82 @@ pub mod general_category {""")
     #[inline]
     pub(crate) fn general_category_of_char(c: char) -> GeneralCategory {
         match c as usize {
-            _ => super::util::bsearch_range_value_table(c, GENERAL_CATEGORY).unwrap_or(GeneralCategory::OtherUnassigned)
+            _ => super::util::bsearch_range_value_table(c, GENERAL_CATEGORY).unwrap_or(GeneralCategory::Unassigned)
         }
     }
 
     #[inline]
     pub(crate) fn general_category_is_letter_cased(gc: GeneralCategory) -> bool {
-        matches!(gc, GeneralCategory::LetterUppercase | GeneralCategory::LetterLowercase | GeneralCategory::LetterTitlecase)
+        matches!(gc, GeneralCategory::UppercaseLetter | GeneralCategory::LowercaseLetter | GeneralCategory::TitlecaseLetter)
     }
 
     #[inline]
     pub(crate) fn general_category_group(gc: GeneralCategory) -> GeneralCategoryGroup {
         match gc {
-            GeneralCategory::LetterUppercase |
-            GeneralCategory::LetterLowercase |
-            GeneralCategory::LetterTitlecase |
-            GeneralCategory::LetterModifier |
-            GeneralCategory::LetterOther => GeneralCategoryGroup::Letter,
-            GeneralCategory::MarkNonspacing |
-            GeneralCategory::MarkSpacing |
-            GeneralCategory::MarkEnclosing => GeneralCategoryGroup::Mark,
-            GeneralCategory::NumberDecimal |
-            GeneralCategory::NumberLetter |
-            GeneralCategory::NumberOther => GeneralCategoryGroup::Number,
-            GeneralCategory::PunctuationConnector |
-            GeneralCategory::PunctuationDash |
-            GeneralCategory::PunctuationOpen |
-            GeneralCategory::PunctuationClose |
-            GeneralCategory::PunctuationInitial |
-            GeneralCategory::PunctuationFinal |
-            GeneralCategory::PunctuationOther => GeneralCategoryGroup::Punctuation,
-            GeneralCategory::SymbolMath |
-            GeneralCategory::SymbolCurrency |
-            GeneralCategory::SymbolModifier |
-            GeneralCategory::SymbolOther => GeneralCategoryGroup::Symbol,
-            GeneralCategory::SeparatorSpace |
-            GeneralCategory::SeparatorLine |
-            GeneralCategory::SeparatorParagraph => GeneralCategoryGroup::Separator,
-            GeneralCategory::OtherControl |
-            GeneralCategory::OtherFormat |
-            GeneralCategory::OtherSurrogate |
-            GeneralCategory::OtherPrivateUse |
-            GeneralCategory::OtherUnassigned => GeneralCategoryGroup::Other,
+            GeneralCategory::UppercaseLetter |
+            GeneralCategory::LowercaseLetter |
+            GeneralCategory::TitlecaseLetter |
+            GeneralCategory::ModifierLetter |
+            GeneralCategory::OtherLetter => GeneralCategoryGroup::Letter,
+            GeneralCategory::NonspacingMark |
+            GeneralCategory::SpacingMark |
+            GeneralCategory::EnclosingMark => GeneralCategoryGroup::Mark,
+            GeneralCategory::DecimalNumber |
+            GeneralCategory::LetterNumber |
+            GeneralCategory::OtherNumber => GeneralCategoryGroup::Number,
+            GeneralCategory::ConnectorPunctuation |
+            GeneralCategory::DashPunctuation |
+            GeneralCategory::OpenPunctuation |
+            GeneralCategory::ClosePunctuation |
+            GeneralCategory::InitialPunctuation |
+            GeneralCategory::FinalPunctuation |
+            GeneralCategory::OtherPunctuation => GeneralCategoryGroup::Punctuation,
+            GeneralCategory::MathSymbol |
+            GeneralCategory::CurrencySymbol |
+            GeneralCategory::ModifierSymbol |
+            GeneralCategory::OtherSymbol => GeneralCategoryGroup::Symbol,
+            GeneralCategory::SpaceSeparator |
+            GeneralCategory::LineSeparator |
+            GeneralCategory::ParagraphSeparator => GeneralCategoryGroup::Separator,
+            GeneralCategory::Control |
+            GeneralCategory::Format |
+            GeneralCategory::Surrogate |
+            GeneralCategory::PrivateUse |
+            GeneralCategory::Unassigned => GeneralCategoryGroup::Other,
         }
     }
 """)
     gc_variants = {
-        "Lu": "GeneralCategory::LetterUppercase",
-        "Ll": "GeneralCategory::LetterLowercase" ,
-        "Lt": "GeneralCategory::LetterTitlecase" ,
-        "Lm": "GeneralCategory::LetterModifier" ,
-        "Lo": "GeneralCategory::LetterOther",
-        "Mn": "GeneralCategory::MarkNonspacing",
-        "Mc": "GeneralCategory::MarkSpacing" ,
-        "Me": "GeneralCategory::MarkEnclosing",
-        "Nd": "GeneralCategory::NumberDecimal",
-        "Nl": "GeneralCategory::NumberLetter" ,
-        "No": "GeneralCategory::NumberOther",
-        "Pc": "GeneralCategory::PunctuationConnector",
-        "Pd": "GeneralCategory::PunctuationDash" ,
-        "Ps": "GeneralCategory::PunctuationOpen" ,
-        "Pe": "GeneralCategory::PunctuationClose" ,
-        "Pi": "GeneralCategory::PunctuationInitial" ,
-        "Pf": "GeneralCategory::PunctuationFinal" ,
-        "Po": "GeneralCategory::PunctuationOther",
-        "Sm": "GeneralCategory::SymbolMath",
-        "Sc": "GeneralCategory::SymbolCurrency" ,
-        "Sk": "GeneralCategory::SymbolModifier" ,
-        "So": "GeneralCategory::SymbolOther",
-        "Zs": "GeneralCategory::SeparatorSpace",
-        "Zl": "GeneralCategory::SeparatorLine" ,
-        "Zp": "GeneralCategory::SeparatorParagraph",
-        "Cc": "GeneralCategory::OtherControl",
-        "Cf": "GeneralCategory::OtherFormat" ,
-        "Cs": "GeneralCategory::OtherSurrogate" ,
-        "Co": "GeneralCategory::OtherPrivateUse" ,
-        "Cn": "GeneralCategory::OtherUnassigned",
+        "Lu": "GeneralCategory::UppercaseLetter",
+        "Ll": "GeneralCategory::LowercaseLetter" ,
+        "Lt": "GeneralCategory::TitlecaseLetter" ,
+        "Lm": "GeneralCategory::ModifierLetter" ,
+        "Lo": "GeneralCategory::OtherLetter",
+        "Mn": "GeneralCategory::NonspacingMark",
+        "Mc": "GeneralCategory::SpacingMark" ,
+        "Me": "GeneralCategory::EnclosingMark",
+        "Nd": "GeneralCategory::DecimalNumber",
+        "Nl": "GeneralCategory::LetterNumber" ,
+        "No": "GeneralCategory::OtherNumber",
+        "Pc": "GeneralCategory::ConnectorPunctuation",
+        "Pd": "GeneralCategory::DashPunctuation" ,
+        "Ps": "GeneralCategory::OpenPunctuation" ,
+        "Pe": "GeneralCategory::ClosePunctuation" ,
+        "Pi": "GeneralCategory::InitialPunctuation" ,
+        "Pf": "GeneralCategory::FinalPunctuation" ,
+        "Po": "GeneralCategory::OtherPunctuation",
+        "Sm": "GeneralCategory::MathSymbol",
+        "Sc": "GeneralCategory::CurrencySymbol" ,
+        "Sk": "GeneralCategory::ModifierSymbol" ,
+        "So": "GeneralCategory::OtherSymbol",
+        "Zs": "GeneralCategory::SpaceSeparator",
+        "Zl": "GeneralCategory::LineSeparator" ,
+        "Zp": "GeneralCategory::ParagraphSeparator",
+        "Cc": "GeneralCategory::Control",
+        "Cf": "GeneralCategory::Format" ,
+        "Cs": "GeneralCategory::Surrogate" ,
+        "Co": "GeneralCategory::PrivateUse" ,
+        "Cn": "GeneralCategory::Unassigned",
     }
 
     f.write("    // General category table:\n")
