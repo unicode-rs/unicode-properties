@@ -13,6 +13,10 @@
 //! and [Unicode Technical Standard #51](https://www.unicode.org/reports/tr51/)
 //! rules.
 //!
+//! Currently we support the `General_Category` property as well as `Emoji` and `Emoji_Component`.
+//!
+//! Future properties can be added as requested.
+//!
 //! ```rust
 //! use unicode_properties::UnicodeEmoji;
 //! use unicode_properties::UnicodeGeneralCategory;
