@@ -42,6 +42,7 @@
 //!
 //! Provides the emoji character properties of a character.
 //!
+#![no_std]
 #![deny(missing_docs)]
 
 #[rustfmt::skip]

@@ -8,6 +8,7 @@ repository = "https://github.com/unicode-rs/unicode-properties"
 documentation = "https://docs.rs/unicode-properties"
 license = "MIT/Apache-2.0"
 keywords = ["text", "unicode"]
+categories = ["no-std::no-alloc"]
 readme = "README.md"
 description = """
 Query character Unicode properties according to
