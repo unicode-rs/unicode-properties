@@ -14,7 +14,7 @@
 
 /// The version of [Unicode](http://www.unicode.org/)
 /// that this version of unicode-security is based on.
-pub const UNICODE_VERSION: (u64, u64, u64) = (15, 0, 0);
+pub const UNICODE_VERSION: (u64, u64, u64) = (15, 1, 0);
 
 
 #[allow(dead_code)]
@@ -1672,7 +1672,7 @@ pub mod general_category {
         GeneralCategory::ClosePunctuation), ('\u{2e5d}', '\u{2e5d}',
         GeneralCategory::DashPunctuation), ('\u{2e80}', '\u{2e99}', GeneralCategory::OtherSymbol),
         ('\u{2e9b}', '\u{2ef3}', GeneralCategory::OtherSymbol), ('\u{2f00}', '\u{2fd5}',
-        GeneralCategory::OtherSymbol), ('\u{2ff0}', '\u{2ffb}', GeneralCategory::OtherSymbol),
+        GeneralCategory::OtherSymbol), ('\u{2ff0}', '\u{2fff}', GeneralCategory::OtherSymbol),
         ('\u{3000}', '\u{3000}', GeneralCategory::SpaceSeparator), ('\u{3001}', '\u{3003}',
         GeneralCategory::OtherPunctuation), ('\u{3004}', '\u{3004}', GeneralCategory::OtherSymbol),
         ('\u{3005}', '\u{3005}', GeneralCategory::ModifierLetter), ('\u{3006}', '\u{3006}',
@@ -1716,27 +1716,27 @@ pub mod general_category {
         GeneralCategory::OtherLetter), ('\u{3190}', '\u{3191}', GeneralCategory::OtherSymbol),
         ('\u{3192}', '\u{3195}', GeneralCategory::OtherNumber), ('\u{3196}', '\u{319f}',
         GeneralCategory::OtherSymbol), ('\u{31a0}', '\u{31bf}', GeneralCategory::OtherLetter),
-        ('\u{31c0}', '\u{31e3}', GeneralCategory::OtherSymbol), ('\u{31f0}', '\u{31ff}',
-        GeneralCategory::OtherLetter), ('\u{3200}', '\u{321e}', GeneralCategory::OtherSymbol),
-        ('\u{3220}', '\u{3229}', GeneralCategory::OtherNumber), ('\u{322a}', '\u{3247}',
-        GeneralCategory::OtherSymbol), ('\u{3248}', '\u{324f}', GeneralCategory::OtherNumber),
-        ('\u{3250}', '\u{3250}', GeneralCategory::OtherSymbol), ('\u{3251}', '\u{325f}',
-        GeneralCategory::OtherNumber), ('\u{3260}', '\u{327f}', GeneralCategory::OtherSymbol),
-        ('\u{3280}', '\u{3289}', GeneralCategory::OtherNumber), ('\u{328a}', '\u{32b0}',
-        GeneralCategory::OtherSymbol), ('\u{32b1}', '\u{32bf}', GeneralCategory::OtherNumber),
-        ('\u{32c0}', '\u{33ff}', GeneralCategory::OtherSymbol), ('\u{3400}', '\u{4dbf}',
-        GeneralCategory::OtherLetter), ('\u{4dc0}', '\u{4dff}', GeneralCategory::OtherSymbol),
-        ('\u{4e00}', '\u{a014}', GeneralCategory::OtherLetter), ('\u{a015}', '\u{a015}',
-        GeneralCategory::ModifierLetter), ('\u{a016}', '\u{a48c}', GeneralCategory::OtherLetter),
-        ('\u{a490}', '\u{a4c6}', GeneralCategory::OtherSymbol), ('\u{a4d0}', '\u{a4f7}',
-        GeneralCategory::OtherLetter), ('\u{a4f8}', '\u{a4fd}', GeneralCategory::ModifierLetter),
-        ('\u{a4fe}', '\u{a4ff}', GeneralCategory::OtherPunctuation), ('\u{a500}', '\u{a60b}',
-        GeneralCategory::OtherLetter), ('\u{a60c}', '\u{a60c}', GeneralCategory::ModifierLetter),
-        ('\u{a60d}', '\u{a60f}', GeneralCategory::OtherPunctuation), ('\u{a610}', '\u{a61f}',
-        GeneralCategory::OtherLetter), ('\u{a620}', '\u{a629}', GeneralCategory::DecimalNumber),
-        ('\u{a62a}', '\u{a62b}', GeneralCategory::OtherLetter), ('\u{a640}', '\u{a640}',
-        GeneralCategory::UppercaseLetter), ('\u{a641}', '\u{a641}',
-        GeneralCategory::LowercaseLetter), ('\u{a642}', '\u{a642}',
+        ('\u{31c0}', '\u{31e3}', GeneralCategory::OtherSymbol), ('\u{31ef}', '\u{31ef}',
+        GeneralCategory::OtherSymbol), ('\u{31f0}', '\u{31ff}', GeneralCategory::OtherLetter),
+        ('\u{3200}', '\u{321e}', GeneralCategory::OtherSymbol), ('\u{3220}', '\u{3229}',
+        GeneralCategory::OtherNumber), ('\u{322a}', '\u{3247}', GeneralCategory::OtherSymbol),
+        ('\u{3248}', '\u{324f}', GeneralCategory::OtherNumber), ('\u{3250}', '\u{3250}',
+        GeneralCategory::OtherSymbol), ('\u{3251}', '\u{325f}', GeneralCategory::OtherNumber),
+        ('\u{3260}', '\u{327f}', GeneralCategory::OtherSymbol), ('\u{3280}', '\u{3289}',
+        GeneralCategory::OtherNumber), ('\u{328a}', '\u{32b0}', GeneralCategory::OtherSymbol),
+        ('\u{32b1}', '\u{32bf}', GeneralCategory::OtherNumber), ('\u{32c0}', '\u{33ff}',
+        GeneralCategory::OtherSymbol), ('\u{3400}', '\u{4dbf}', GeneralCategory::OtherLetter),
+        ('\u{4dc0}', '\u{4dff}', GeneralCategory::OtherSymbol), ('\u{4e00}', '\u{a014}',
+        GeneralCategory::OtherLetter), ('\u{a015}', '\u{a015}', GeneralCategory::ModifierLetter),
+        ('\u{a016}', '\u{a48c}', GeneralCategory::OtherLetter), ('\u{a490}', '\u{a4c6}',
+        GeneralCategory::OtherSymbol), ('\u{a4d0}', '\u{a4f7}', GeneralCategory::OtherLetter),
+        ('\u{a4f8}', '\u{a4fd}', GeneralCategory::ModifierLetter), ('\u{a4fe}', '\u{a4ff}',
+        GeneralCategory::OtherPunctuation), ('\u{a500}', '\u{a60b}', GeneralCategory::OtherLetter),
+        ('\u{a60c}', '\u{a60c}', GeneralCategory::ModifierLetter), ('\u{a60d}', '\u{a60f}',
+        GeneralCategory::OtherPunctuation), ('\u{a610}', '\u{a61f}', GeneralCategory::OtherLetter),
+        ('\u{a620}', '\u{a629}', GeneralCategory::DecimalNumber), ('\u{a62a}', '\u{a62b}',
+        GeneralCategory::OtherLetter), ('\u{a640}', '\u{a640}', GeneralCategory::UppercaseLetter),
+        ('\u{a641}', '\u{a641}', GeneralCategory::LowercaseLetter), ('\u{a642}', '\u{a642}',
         GeneralCategory::UppercaseLetter), ('\u{a643}', '\u{a643}',
         GeneralCategory::LowercaseLetter), ('\u{a644}', '\u{a644}',
         GeneralCategory::UppercaseLetter), ('\u{a645}', '\u{a645}',
@@ -2703,12 +2703,13 @@ pub mod general_category {
         GeneralCategory::DecimalNumber), ('\u{20000}', '\u{2a6df}', GeneralCategory::OtherLetter),
         ('\u{2a700}', '\u{2b739}', GeneralCategory::OtherLetter), ('\u{2b740}', '\u{2b81d}',
         GeneralCategory::OtherLetter), ('\u{2b820}', '\u{2cea1}', GeneralCategory::OtherLetter),
-        ('\u{2ceb0}', '\u{2ebe0}', GeneralCategory::OtherLetter), ('\u{2f800}', '\u{2fa1d}',
-        GeneralCategory::OtherLetter), ('\u{30000}', '\u{3134a}', GeneralCategory::OtherLetter),
-        ('\u{31350}', '\u{323af}', GeneralCategory::OtherLetter), ('\u{e0001}', '\u{e0001}',
-        GeneralCategory::Format), ('\u{e0020}', '\u{e007f}', GeneralCategory::Format), ('\u{e0100}',
-        '\u{e01ef}', GeneralCategory::NonspacingMark), ('\u{f0000}', '\u{ffffd}',
-        GeneralCategory::PrivateUse), ('\u{100000}', '\u{10fffd}', GeneralCategory::PrivateUse)
+        ('\u{2ceb0}', '\u{2ebe0}', GeneralCategory::OtherLetter), ('\u{2ebf0}', '\u{2ee5d}',
+        GeneralCategory::OtherLetter), ('\u{2f800}', '\u{2fa1d}', GeneralCategory::OtherLetter),
+        ('\u{30000}', '\u{3134a}', GeneralCategory::OtherLetter), ('\u{31350}', '\u{323af}',
+        GeneralCategory::OtherLetter), ('\u{e0001}', '\u{e0001}', GeneralCategory::Format),
+        ('\u{e0020}', '\u{e007f}', GeneralCategory::Format), ('\u{e0100}', '\u{e01ef}',
+        GeneralCategory::NonspacingMark), ('\u{f0000}', '\u{ffffd}', GeneralCategory::PrivateUse),
+        ('\u{100000}', '\u{10fffd}', GeneralCategory::PrivateUse)
     ];
 
 }
