@@ -14,7 +14,7 @@ description = """
 Query character Unicode properties according to
 UAX #44 and UTR #51.
 """
-exclude = [ "target/*", "Cargo.lock" ]
+exclude = [ "target/*", "Cargo.lock", "scripts/*" ]
 
 [features]
 general-category = []
