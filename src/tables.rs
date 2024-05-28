@@ -127,9 +127,7 @@ pub mod general_category {
 
     #[inline]
     pub(crate) fn general_category_of_char(c: char) -> GeneralCategory {
-        match c as usize {
-            _ => super::util::bsearch_range_value_table(c, GENERAL_CATEGORY).unwrap_or(GeneralCategory::Unassigned)
-        }
+        super::util::bsearch_range_value_table(c, GENERAL_CATEGORY).unwrap_or(GeneralCategory::Unassigned)
     }
 
     #[inline]
@@ -173,7 +171,7 @@ pub mod general_category {
         }
     }
     // General category table:
-    const GENERAL_CATEGORY: &'static [(char, char, GeneralCategory)] = &[
+    const GENERAL_CATEGORY: &[(char, char, GeneralCategory)] = &[
         ('\u{0}', '\u{1f}', GeneralCategory::Control), ('\u{20}', '\u{20}',
         GeneralCategory::SpaceSeparator), ('\u{21}', '\u{23}', GeneralCategory::OtherPunctuation),
         ('\u{24}', '\u{24}', GeneralCategory::CurrencySymbol), ('\u{25}', '\u{27}',
@@ -2743,9 +2741,7 @@ pub mod emoji {
     #[inline]
     pub(crate) fn emoji_status(c: char) -> EmojiStatus {
         // FIXME: do we want to special case ASCII here?
-        match c as usize {
-            _ => super::util::bsearch_range_value_table(c, EMOJI_STATUS).unwrap()
-        }
+        super::util::bsearch_range_value_table(c, EMOJI_STATUS).unwrap()
     }
     #[inline]
     pub(crate) fn is_emoji_status_for_emoji_char_or_emoji_component(s: EmojiStatus) -> bool {
@@ -2762,7 +2758,7 @@ pub mod emoji {
             EmojiStatus::EmojiOtherAndEmojiComponent)
     }
     // Emoji status table:
-    const EMOJI_STATUS: &'static [(char, char, EmojiStatus)] = &[
+    const EMOJI_STATUS: &[(char, char, EmojiStatus)] = &[
         ('\u{0}', '\u{22}', EmojiStatus::NonEmoji), ('\u{23}', '\u{23}',
         EmojiStatus::EmojiOtherAndEmojiComponent), ('\u{24}', '\u{29}', EmojiStatus::NonEmoji),
         ('\u{2a}', '\u{2a}', EmojiStatus::EmojiOtherAndEmojiComponent), ('\u{2b}', '\u{2f}',

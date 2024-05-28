@@ -21,14 +21,12 @@
 //! use unicode_properties::UnicodeEmoji;
 //! use unicode_properties::UnicodeGeneralCategory;
 //!
-//! fn main() {
-//!     let ch = '🦀'; // U+1F980 CRAB
-//!     let is_emoji = ch.is_emoji_char();
-//!     let group = ch.general_category_group();
-//!     println!("{}({:?})", ch, group);
-//!     println!("The above char {} for use as emoji char.",
-//!              if is_emoji { "is recommended" } else { "is not recommended" });
-//! }
+//! let ch = '🦀'; // U+1F980 CRAB
+//! let is_emoji = ch.is_emoji_char();
+//! let group = ch.general_category_group();
+//! println!("{}({:?})", ch, group);
+//! println!("The above char {} for use as emoji char.",
+//!          if is_emoji { "is recommended" } else { "is not recommended" });
 //! ```
 //!
 //! # Features
@@ -59,17 +57,20 @@ pub mod emoji {
         fn emoji_status(self) -> EmojiStatus;
 
         /// Checks whether this character is recommended for use as emoji, i.e. `Emoji=YES`.
+        #[allow(clippy::wrong_self_convention)]
         fn is_emoji_char(self) -> bool {
             crate::tables::emoji::is_emoji_status_for_emoji_char(self.emoji_status())
         }
 
         /// Checks whether this character are used in emoji sequences where they're not
         /// intended for independent, direct input, i.e. `Emoji_Component=YES`.
+        #[allow(clippy::wrong_self_convention)]
         fn is_emoji_component(self) -> bool {
             crate::tables::emoji::is_emoji_status_for_emoji_component(self.emoji_status())
         }
 
         /// Checks whether this character occurs in emoji sequences, i.e. `Emoji=YES | Emoji_Component=YES`
+        #[allow(clippy::wrong_self_convention)]
         fn is_emoji_char_or_emoji_component(self) -> bool {
             crate::tables::emoji::is_emoji_status_for_emoji_char_or_emoji_component(
                 self.emoji_status(),
@@ -144,6 +145,7 @@ pub mod general_category {
         ///
         /// The `LetterCased` group includes `LetterUppercase`, `LetterLowercase`, and `LetterTitlecase`
         /// categories, and is a subset of the `Letter` group.
+        #[allow(clippy::wrong_self_convention)]
         fn is_letter_cased(self) -> bool {
             crate::tables::general_category::general_category_is_letter_cased(
                 self.general_category(),

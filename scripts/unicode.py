@@ -275,9 +275,7 @@ pub mod general_category {""")
 
     #[inline]
     pub(crate) fn general_category_of_char(c: char) -> GeneralCategory {
-        match c as usize {
-            _ => super::util::bsearch_range_value_table(c, GENERAL_CATEGORY).unwrap_or(GeneralCategory::Unassigned)
-        }
+        super::util::bsearch_range_value_table(c, GENERAL_CATEGORY).unwrap_or(GeneralCategory::Unassigned)
     }
 
     #[inline]
@@ -369,7 +367,7 @@ pub mod general_category {""")
                 general_category_char_table[input_idx][1], general_category_group_table[existing_group_count - 1][2])
         else:
             general_category_group_table.append(general_category_char_table[input_idx])
-    emit_table(f, "GENERAL_CATEGORY", general_category_group_table, "&'static [(char, char, GeneralCategory)]", is_pub=False,
+    emit_table(f, "GENERAL_CATEGORY", general_category_group_table, "&[(char, char, GeneralCategory)]", is_pub=False,
             pfun=lambda x: "(%s,%s,%s)" % (escape_char(x[0]), escape_char(x[1]), gc_variants[x[2]]))
     f.write("}\n\n")
 
@@ -405,9 +403,7 @@ pub mod emoji {""")
     #[inline]
     pub(crate) fn emoji_status(c: char) -> EmojiStatus {
         // FIXME: do we want to special case ASCII here?
-        match c as usize {
-            _ => super::util::bsearch_range_value_table(c, EMOJI_STATUS).unwrap()
-        }
+        super::util::bsearch_range_value_table(c, EMOJI_STATUS).unwrap()
     }
     #[inline]
     pub(crate) fn is_emoji_status_for_emoji_char_or_emoji_component(s: EmojiStatus) -> bool {
@@ -491,7 +487,7 @@ pub mod emoji {""")
                     emoji_prop_list_pos[prop_list_idx] += 1
         cur_group_first = cur_group_last + 1
 
-    emit_table(f, "EMOJI_STATUS", emoji_table, "&'static [(char, char, EmojiStatus)]", is_pub=False,
+    emit_table(f, "EMOJI_STATUS", emoji_table, "&[(char, char, EmojiStatus)]", is_pub=False,
             pfun=lambda x: "(%s,%s,%s)" % (escape_char(x[0]), escape_char(x[1]), x[2]))
     f.write("}\n\n")
 
