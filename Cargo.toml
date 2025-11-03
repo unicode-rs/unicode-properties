@@ -6,7 +6,7 @@ edition = "2021"
 homepage = "https://github.com/unicode-rs/unicode-properties"
 repository = "https://github.com/unicode-rs/unicode-properties"
 documentation = "https://docs.rs/unicode-properties"
-license = "MIT/Apache-2.0"
+license = "(MIT OR Apache-2.0) AND Unicode-3.0"
 keywords = ["text", "unicode"]
 categories = ["no-std::no-alloc"]
 readme = "README.md"
@@ -14,7 +14,7 @@ description = """
 Query character Unicode properties according to
 UAX #44 and UTR #51.
 """
-exclude = [ "target/*", "Cargo.lock" ]
+exclude = [ "target/*", "Cargo.lock", "scripts/*" ]
 
 [features]
 general-category = []
