@@ -39,9 +39,9 @@ jobs:
     - name: Package
       run: cargo package
     - name: Test package
-      run: cd $(find target/package/ -maxdepth 1 -mindepth 1 -type d) && cargo test
+      run: cd target/package/unicode-properties-*/ && cargo test
     - name: Test package without features
-      run: cd $(find target/package/ -maxdepth 1 -mindepth 1 -type d) && cargo test --lib --no-default-features
+      run: cd target/package/unicode-properties-*/ && cargo test --lib --no-default-features
     - name: Build docs
       if: matrix.rust == 'nightly'
       run: cargo doc --all-features --verbose
