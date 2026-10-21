@@ -158,6 +158,20 @@ pub mod general_category {
             crate::tables::general_category::general_category_of_char(self)
         }
     }
+
+    impl UnicodeGeneralCategory for GeneralCategory {
+        #[inline(always)]
+        fn general_category(self) -> GeneralCategory {
+            self
+        }
+    }
+
+    impl From<GeneralCategory> for GeneralCategoryGroup {
+        #[inline(always)]
+        fn from(value: GeneralCategory) -> Self {
+            value.general_category_group()
+        }
+    }
 }
 
 pub use tables::UNICODE_VERSION;
